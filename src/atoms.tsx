@@ -1,4 +1,4 @@
-import { atom, selector } from "recoil";
+import { atom } from "recoil";
 
 export interface ITodo {
   id: number;
@@ -12,23 +12,13 @@ export interface IBoard {
   text: string;
   toDos: ITodo[];
 }
-/*export const minuteState = atom({
-  key: "minutes",
-  default: 0,
-});
 
-export const hourSelector = selector <number>({
-  key: "hours",
-  get: ({ get }) => {
-    const minutes = get(minuteState);
-    return minutes / 60;
-  },
-  set: ({ set }, newValue ) => {
-    const minutes = Number(newValue) * 60;
-    set(minuteState, minutes);
-  }
-}); */
-
+/**
+ * localStorage에 저장하는데 useEffect와도 결합시켰다고 생각하면 된다.
+ * Atom Effect의 기능
+ * @param key toDoState의 atom 키
+ * @returns 없음
+ */
 const localStorageEffect =
   (key: string) =>
   ({ setSelf, onSet }: any) => {

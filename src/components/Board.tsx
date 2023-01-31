@@ -76,7 +76,7 @@ const Input = styled.input`
 
 function Board({ toDos, boardId }: IBoardProps) {
   const setTodos = useSetRecoilState(toDoState);
-  const getTodos = useRecoilValue(toDoState);
+  //const getTodos = useRecoilValue(toDoState);
   const { register, setValue, handleSubmit } = useForm<IForm>();
   const onValid = ({ toDo }: IForm) => {
     const newTodo = {
@@ -89,12 +89,8 @@ function Board({ toDos, boardId }: IBoardProps) {
         [boardId]: [...allBoards[boardId], newTodo],
       };
     });
-    localStorage.setItem(`${boardId}`, JSON.stringify(getTodos[boardId]));
     setValue("toDo", "");
   };
-  useEffect(() => {
-    localStorage.setItem(`${boardId}`, JSON.stringify(getTodos[boardId]));
-  }, [toDos]);
   return (
     <Wrapper>
       <Title>{boardId}</Title>

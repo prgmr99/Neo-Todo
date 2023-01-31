@@ -7,6 +7,11 @@ export interface ITodo {
 interface ITodoState {
   [key: string]: ITodo[];
 }
+export interface IBoard {
+  id: number;
+  text: string;
+  toDos: ITodo[];
+}
 /*export const minuteState = atom({
   key: "minutes",
   default: 0,
@@ -23,6 +28,21 @@ export const hourSelector = selector <number>({
     set(minuteState, minutes);
   }
 }); */
+
+const localStorageEffect =
+  (key: string) =>
+  ({ setSelf, onSet }: any) => {
+    const savedValue = localStorage.getItem(key);
+    if (savedValue !== null) {
+      setSelf(JSON.parse(savedValue));
+    }
+    onSet((newValue: any, _: any, isReset: boolean) => {
+      isReset
+        ? localStorage.removeItem(key)
+        : localStorage.setItem(key, JSON.stringify(newValue));
+    });
+  };
+
 export const toDoState = atom<ITodoState>({
   key: "toDos",
   default: {
@@ -30,19 +50,5 @@ export const toDoState = atom<ITodoState>({
     "하는 중": [],
     "다 했다!": [],
   },
+  effects: [localStorageEffect("toDos")],
 });
-
-const localStorageEffect =
-  (key: any) =>
-  ({ setSelf, onSet }: any) => {
-    const savedValue = localStorage.getItem(key);
-    if (savedValue != null) {
-      setSelf(JSON.parse(savedValue));
-    }
-
-    onSet((newValue: any, _: any, isReset: any) => {
-      isReset
-        ? localStorage.removeItem(key)
-        : localStorage.setItem(key, JSON.stringify(newValue));
-    });
-  };

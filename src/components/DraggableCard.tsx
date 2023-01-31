@@ -1,3 +1,4 @@
+import { info } from "console";
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
@@ -19,8 +20,14 @@ const Card = styled.div<{ isDragging: boolean }>`
       ? "0px 3px 5px rgba(0,0,0,1)"
       : "0px 1px 2px rgba(0,0,0,1)"};
 `;
+const DelBtn = styled.span`
+  float: right;
+`;
 
 function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
+  const clickDelBtn = (info: any) => {
+    console.log(info);
+  };
   return (
     <Draggable key={toDoId} draggableId={toDoId + ""} index={index}>
       {(magic, snapshot) => (
@@ -31,6 +38,7 @@ function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
           {...magic.draggableProps}
         >
           {toDoText}
+          <DelBtn onClick={clickDelBtn}>✂️</DelBtn>
         </Card>
       )}
     </Draggable>

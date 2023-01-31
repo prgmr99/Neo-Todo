@@ -1,8 +1,8 @@
 import { atom, selector } from "recoil";
 
 export interface ITodo {
-  id:number;
-  text:string;
+  id: number;
+  text: string;
 }
 interface ITodoState {
   [key: string]: ITodo[];
@@ -26,8 +26,23 @@ export const hourSelector = selector <number>({
 export const toDoState = atom<ITodoState>({
   key: "toDos",
   default: {
-    to_do: [],
-    doing: [],
-    done: [],
-  }
-}) 
+    "할 일": [],
+    "하는 중": [],
+    "다 했다!": [],
+  },
+});
+
+const localStorageEffect =
+  (key: any) =>
+  ({ setSelf, onSet }: any) => {
+    const savedValue = localStorage.getItem(key);
+    if (savedValue != null) {
+      setSelf(JSON.parse(savedValue));
+    }
+
+    onSet((newValue: any, _: any, isReset: any) => {
+      isReset
+        ? localStorage.removeItem(key)
+        : localStorage.setItem(key, JSON.stringify(newValue));
+    });
+  };

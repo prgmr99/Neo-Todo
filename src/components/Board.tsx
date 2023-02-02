@@ -1,23 +1,37 @@
 import { useEffect } from "react";
-import { Droppable } from "react-beautiful-dnd";
+import React from "react";
+import { Droppable, DraggableProvided } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import DraggableCard from "./DraggableCard";
 import styled from "styled-components";
-import { ITodo, toDoState } from "../atoms";
+import { ITodo, toDoState, IBoard } from "../atoms";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 
 interface IForm {
   toDo: string;
 }
 interface IBoardProps {
-  toDos: ITodo[];
-  boardId: string;
+  board: IBoard;
+  parentProvided: DraggableProvided;
+  isHovering: boolean;
 }
 interface IAreaProps {
   isDraggingFromThis: boolean;
   isDraggingOver: boolean;
 }
-const Container = styled.div``;
+const Container = styled.div<{ isDraggingOver: boolean }>`
+  padding: 20px 5px;
+  background-color: ${(props) => props.theme.boardColor};
+  border-radius: 5px;
+  min-height: 450px;
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  overflow: hidden;
+  margin: 0px 100px;
+  margin-left: -70px;
+  justify-content: center;
+`;
 const Area = styled.div<IAreaProps>`
   background-color: ${(props) =>
     props.isDraggingOver
@@ -40,19 +54,6 @@ const Title = styled.h2`
     transition: color 0.3s ease-in-out;
   }
 `;
-const Wrapper = styled.div`
-  padding: 20px 5px;
-  background-color: ${(props) => props.theme.boardColor};
-  border-radius: 5px;
-  min-height: 450px;
-  display: flex;
-  flex-direction: column;
-  width: 250px;
-  overflow: hidden;
-  margin: 0px 100px;
-  margin-left: -70px;
-  justify-content: center;
-`;
 const Form = styled.form`
   width: 100%;
 `;
@@ -74,56 +75,101 @@ const Input = styled.input`
   }
 `;
 
-function Board({ toDos, boardId }: IBoardProps) {
+function Board({ board, parentProvided, isHovering }: IBoardProps) {
   const setTodos = useSetRecoilState(toDoState);
   //const getTodos = useRecoilValue(toDoState);
   const { register, setValue, handleSubmit } = useForm<IForm>();
+  const onDelBtn = () => {
+    setTodos((prev) => {
+      const boardsCopy = [...prev];
+      const boardIndex = prev.findIndex((b) => b.id === board.id);
+      boardsCopy.splice(boardIndex, 1);
+      return boardsCopy;
+    });
+  };
   const onValid = ({ toDo }: IForm) => {
     const newTodo = {
       id: Date.now(),
       text: toDo,
     };
-    setTodos((allBoards) => {
-      return {
-        ...allBoards,
-        [boardId]: [...allBoards[boardId], newTodo],
-      };
+    setTodos((prev) => {
+      const toDosCopy = [...prev];
+      const boardIndex = prev.findIndex((b) => b.id === board.id);
+      const boardCopy = { ...prev[boardIndex] };
+
+      boardCopy.toDos = [newTodo, ...boardCopy.toDos];
+      toDosCopy.splice(boardIndex, 1, boardCopy);
+
+      return toDosCopy;
     });
     setValue("toDo", "");
   };
+  const onFixBtn = () => {
+    const name = window.prompt("보드 이름을 입력해주세요!")?.trim();
+    if (name !== null && name !== undefined) {
+      if (name === "") {
+        alert("이름을 입력해주세요!");
+        return;
+      }
+      if (name === board.title) {
+        alert("새로운 이름을 입력해주세요!");
+        return;
+      }
+      setTodos((prev) => {
+        const boardsCopy = [...prev];
+        const boardIndex = prev.findIndex((b) => b.id === board.id);
+        const boardCopy = { ...prev[boardIndex] };
+        boardCopy.title = name;
+        boardsCopy.splice(boardIndex, 1, boardCopy);
+        return boardsCopy;
+      });
+    }
+  };
   return (
-    <Wrapper>
-      <Title>{boardId}</Title>
-      <Form onSubmit={handleSubmit(onValid)}>
-        <Input
-          {...register("toDo", { required: true })}
-          type="text"
-          placeholder={`"${boardId}" 추가하기`}
-        />
-      </Form>
-      <Droppable droppableId={boardId}>
-        {(magic, info) => (
+    <Droppable droppableId={"board-" + board.id} type="BOARD">
+      {(magic, info) => (
+        <Container
+          isDraggingOver={info.isDraggingOver}
+          className={`${info.isDraggingOver ? "dragging" : ""} ${
+            isHovering ? "hovering" : ""
+          }`}
+          ref={parentProvided.innerRef}
+          {...parentProvided.draggableProps}
+          {...parentProvided.dragHandleProps}
+        >
+          <div>
+            <Title>{board.title}</Title>
+            <button onClick={onDelBtn}>❌</button>
+            <button onClick={onFixBtn}>📌</button>
+            <Form onSubmit={handleSubmit(onValid)}>
+              <Input
+                {...register("toDo", { required: true })}
+                type="text"
+                placeholder={`"${board.title}" 추가하기`}
+              />
+            </Form>
+          </div>
           <Area
             isDraggingOver={info.isDraggingOver}
             isDraggingFromThis={Boolean(info.draggingFromThisWith)}
             ref={magic.innerRef}
             {...magic.droppableProps}
           >
-            {toDos.map((toDo, index) => (
+            {board.toDos.map((toDo, index) => (
               <DraggableCard
                 key={toDo.id}
                 index={index}
                 toDoId={toDo.id}
-                toDoText={toDo.text}
-                boardId={boardId}
+                toDo={toDo}
+                boardId={board.id}
               />
             ))}
             {magic.placeholder}
           </Area>
-        )}
-      </Droppable>
-    </Wrapper>
+        </Container>
+      )}
+    </Droppable>
   );
 }
 
-export default Board;
+export default React.memo(Board);

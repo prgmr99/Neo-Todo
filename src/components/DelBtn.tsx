@@ -5,7 +5,7 @@ import { toDoState } from "../atoms";
 interface ButtonProps {
   index: number;
   toDoId: number;
-  boardId: string;
+  boardId: number;
 }
 const Span = styled.span`
   float: right;
@@ -14,16 +14,22 @@ const Span = styled.span`
 const DelBtn = (props: ButtonProps) => {
   const [toDos, settoDos] = useRecoilState(toDoState);
   const onClick = () => {
-    console.log(props.index);
-    console.log(props.toDoId);
-    console.log(props.boardId);
-    settoDos((allBoards): any => {
-      const boardUpdate = [...allBoards[props.boardId]];
-      boardUpdate.splice(props.index, 1);
-      return {
-        ...allBoards,
-        [props.boardId]: boardUpdate,
-      };
+    settoDos((prev) => {
+      const toDosCopy = [...prev];
+      const boardIndex = toDosCopy.findIndex(
+        (board) => board.id === props.boardId
+      );
+      const boardCopy = { ...toDosCopy[boardIndex] };
+      const listCopy = [...boardCopy.toDos];
+      const toDoIndex = boardCopy.toDos.findIndex(
+        (td) => td.id === props.toDoId
+      );
+
+      listCopy.splice(toDoIndex, 1);
+      boardCopy.toDos = listCopy;
+      toDosCopy.splice(boardIndex, 1, boardCopy);
+
+      return toDosCopy;
     });
   };
   return (

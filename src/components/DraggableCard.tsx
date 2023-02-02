@@ -1,13 +1,15 @@
 import React from "react";
-import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
+import { useSetRecoilState } from "recoil";
+import { Draggable } from "react-beautiful-dnd";
+import { toDoState, ITodo } from "../atoms";
 import DelBtn from "./DelBtn";
 
 interface IDraggableCardProps {
   toDoId: number;
-  toDoText: string;
+  toDo: ITodo;
   index: number;
-  boardId: string;
+  boardId: number;
 }
 
 const Card = styled.div<{ isDragging: boolean }>`
@@ -21,23 +23,46 @@ const Card = styled.div<{ isDragging: boolean }>`
       ? "0px 3px 5px rgba(0,0,0,1)"
       : "0px 1px 2px rgba(0,0,0,1)"};
 `;
+const ModBtn = styled.button`
+  float: right;
+`;
 
-function DraggableCard({
-  toDoId,
-  toDoText,
-  index,
-  boardId,
-}: IDraggableCardProps) {
+function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
+  const setTodos = useSetRecoilState(toDoState);
+  /* const onModTodo = () => {
+    const modtoDo = window.prompt("to do를 입력해주세요!")?.trim();
+    if (modtoDo !== null && modtoDo !== undefined) {
+      if (modtoDo === "") {
+        alert("to do를 입력해주세요!");
+        return;
+      }
+      if (modtoDo === toDo.text) {
+        alert("to do를 다시 입력해주세요!");
+        return;
+      }
+      setTodos((prev) => {
+        const boardsCopy = [...prev];
+        const boardIndex = prev.findIndex((b) => b.id === boardId);
+        const boardCopy = { ...boardsCopy[boardIndex] };
+        const toDosCopy = [...boardCopy.toDos];
+        const toDoIndex = toDosCopy.findIndex((b) => b.id === toDoId);
+        console.log(toDosCopy[toDoIndex].text);
+        toDosCopy[toDoIndex].text = modtoDo;
+        console.log(modtoDo);
+        return boardsCopy;
+      });
+    }
+  }; */
   return (
-    <Draggable key={toDoId} draggableId={toDoId + ""} index={index}>
-      {(magic, snapshot) => (
+    <Draggable key={toDoId} draggableId={"todo-" + toDo.id} index={index}>
+      {(provided, snapshot) => (
         <Card
           isDragging={snapshot.isDragging}
-          ref={magic.innerRef}
-          {...magic.dragHandleProps}
-          {...magic.draggableProps}
+          ref={provided.innerRef}
+          {...provided.dragHandleProps}
+          {...provided.draggableProps}
         >
-          {toDoText}
+          {toDo.text}
           <DelBtn index={index} toDoId={toDoId} boardId={boardId}></DelBtn>
         </Card>
       )}

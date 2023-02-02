@@ -4,15 +4,44 @@ export interface ITodo {
   id: number;
   text: string;
 }
-interface ITodoState {
-  [key: string]: ITodo[];
-}
 export interface IBoard {
   id: number;
-  text: string;
+  title: string;
   toDos: ITodo[];
 }
+const instanceOfToDo = (object: unknown): object is ITodo => {
+  return (
+    object !== null &&
+    object !== undefined &&
+    object.constructor === Object &&
+    typeof (object as { id: unknown; text: unknown }).id === "number" &&
+    typeof (object as { id: unknown; text: unknown }).text === "string"
+  );
+};
 
+const instanceOfBoard = (object: unknown): object is IBoard => {
+  return (
+    object !== null &&
+    object !== undefined &&
+    object.constructor === Object &&
+    typeof (object as { id: unknown; title: unknown; toDos: unknown }).id ===
+      "number" &&
+    typeof (object as { id: unknown; title: unknown; toDos: unknown }).title ===
+      "string" &&
+    Array.isArray(
+      (object as { id: unknown; title: unknown; toDos: unknown }).toDos
+    ) &&
+    (object as { id: unknown; title: unknown; toDos: unknown[] }).toDos.every(
+      (toDo) => instanceOfToDo(toDo)
+    )
+  );
+};
+
+const instanceOfBoards = (object: unknown): object is IBoard[] => {
+  return (
+    Array.isArray(object) && object.every((board) => instanceOfBoard(board))
+  );
+};
 /**
  * localStorage에 저장하는데 useEffect와도 결합시켰다고 생각하면 된다.
  * Atom Effect의 기능
@@ -23,22 +52,49 @@ const localStorageEffect =
   (key: string) =>
   ({ setSelf, onSet }: any) => {
     const savedValue = localStorage.getItem(key);
-    if (savedValue !== null) {
-      setSelf(JSON.parse(savedValue));
+
+    if (savedValue !== null && savedValue !== undefined) {
+      const json = (raw: string) => {
+        try {
+          return JSON.parse(raw);
+        } catch (error) {
+          return false;
+        }
+      };
+
+      if (json(savedValue) && instanceOfBoards(json(savedValue))) {
+        setSelf(json(savedValue));
+      }
     }
-    onSet((newValue: any, _: any, isReset: boolean) => {
-      isReset
-        ? localStorage.removeItem(key)
-        : localStorage.setItem(key, JSON.stringify(newValue));
+
+    onSet((newValue: IBoard[]) => {
+      localStorage.setItem(key, JSON.stringify(newValue));
     });
   };
 
-export const toDoState = atom<ITodoState>({
+export const toDoState = atom<IBoard[]>({
   key: "toDos",
-  default: {
-    "할 일": [],
-    "하는 중": [],
-    "다 했다!": [],
-  },
+  default: [
+    {
+      title: "해야 함",
+      id: 0,
+      toDos: [],
+    },
+    {
+      title: "하는 중",
+      id: 1,
+      toDos: [],
+    },
+    {
+      title: "다 함",
+      id: 2,
+      toDos: [],
+    },
+  ],
   effects: [localStorageEffect("toDos")],
+});
+
+export const trashState = atom({
+  key: "trash",
+  default: ["hello"],
 });

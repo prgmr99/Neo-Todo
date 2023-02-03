@@ -1,11 +1,11 @@
-import { useEffect } from "react";
 import React from "react";
+import styled from "styled-components";
 import { Droppable, DraggableProvided } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
-import DraggableCard from "./DraggableCard";
-import styled from "styled-components";
-import { ITodo, toDoState, IBoard } from "../atoms";
+import { toDoState, IBoard } from "../atoms";
 import { useSetRecoilState, useRecoilValue } from "recoil";
+import DraggableCard from "./DraggableCard";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 interface IForm {
   toDo: string;
@@ -19,6 +19,7 @@ interface IAreaProps {
   isDraggingFromThis: boolean;
   isDraggingOver: boolean;
 }
+const sweetAPI = "//api.ipify.org?format=json";
 const Container = styled.div<{ isDraggingOver: boolean }>`
   padding: 20px 5px;
   background-color: ${(props) => props.theme.boardColor};
@@ -152,7 +153,7 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
     setValue("toDo", "");
   };
   const onFixBtn = () => {
-    const name = window.prompt("보드 이름을 입력해주세요!")?.trim();
+    /*const name = window.prompt("보드 이름을 입력해주세요!")?.trim();
     if (name !== null && name !== undefined) {
       if (name === "") {
         alert("이름을 입력해주세요!");
@@ -162,15 +163,37 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
         alert("새로운 이름을 입력해주세요!");
         return;
       }
+      
+    }*/
+
+    const inputValue = fetch(sweetAPI)
+      .then((response) => response.json())
+      .then((data) => data.name);
+
+    (async () => {
+      const { value: getName } = await Swal.fire({
+        title: "새로운 이름을 입력해주세요",
+        text: "보드 이름",
+        input: "text",
+        inputPlaceholder: "이름을 입력..",
+      });
+
+      // 이후 처리되는 내용.
+      if (getName) {
+        Swal.fire("Saved!");
+      }
+      if (getName === "") {
+        return;
+      }
       setTodos((prev) => {
         const boardsCopy = [...prev];
         const boardIndex = prev.findIndex((b) => b.id === board.id);
         const boardCopy = { ...prev[boardIndex] };
-        boardCopy.title = name;
+        boardCopy.title = getName;
         boardsCopy.splice(boardIndex, 1, boardCopy);
         return boardsCopy;
       });
-    }
+    })();
   };
   return (
     <Droppable droppableId={"board-" + board.id} type="BOARD">

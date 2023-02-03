@@ -9,7 +9,9 @@ import { useRecoilState } from "recoil";
 import { toDoState } from "./atoms";
 import Board from "./components/Board";
 import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
 
+const sweetAPI = "//api.ipify.org?format=json";
 const Wrapper = styled.div`
   display: flex;
   max-width: 1000px;
@@ -84,7 +86,7 @@ const Header = styled.h1`
 function App() {
   const [toDos, settoDos] = useRecoilState(toDoState);
   const onAddBoard = () => {
-    const name = window.prompt("새 보드 이름을 입력해주세요!")?.trim();
+    /* const name = window.prompt("새 보드 이름을 입력해주세요!")?.trim();
     if (name !== null && name !== undefined) {
       if (name === "") {
         alert("이름을 입력해주세요!");
@@ -93,7 +95,30 @@ function App() {
       settoDos((prev) => {
         return [...prev, { title: name, id: Date.now(), toDos: [] }];
       });
-    }
+    } */
+    const inputValue = fetch(sweetAPI)
+      .then((response) => response.json())
+      .then((data) => data.name);
+
+    (async () => {
+      const { value: getName } = await Swal.fire({
+        title: "이름을 입력해주세요",
+        text: "보드 이름",
+        input: "text",
+        inputPlaceholder: "이름을 입력..",
+      });
+
+      // 이후 처리되는 내용.
+      if (getName) {
+        Swal.fire("Saved!");
+      }
+      if (getName === "") {
+        return;
+      }
+      settoDos((prev) => {
+        return [...prev, { title: getName, id: Date.now(), toDos: [] }];
+      });
+    })();
   };
   const onDragEnd = (info: DropResult) => {
     const { destination, source, draggableId } = info;

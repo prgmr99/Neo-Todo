@@ -8,32 +8,79 @@ import {
 import { useRecoilState } from "recoil";
 import { toDoState } from "./atoms";
 import Board from "./components/Board";
-//import Trash from "./components/Trash";
+import { Helmet } from "react-helmet-async";
 
 const Wrapper = styled.div`
   display: flex;
-  max-width: 680px;
+  max-width: 1000px;
   width: 100%;
   margin: 0 auto;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 70vh;
 `;
 const Boards = styled.div`
   display: flex;
 `;
-const Area = styled.div`
-  position: relative;
-  top: 370px;
-  left: 100px;
-  font-size: 50px;
+const Trash = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0rem;
+  left: 160vh;
+  width: 7.5rem;
+  height: 3.75rem;
+  border-radius: 0 0 100rem 100rem;
+  background-color: #fdcb6e;
+  box-shadow: -0.1rem 0 0.4rem rgb(210 77 77 / 15%);
+  font-size: 25px;
+  z-index: 5;
+  transition: transform 0.3s;
+  &:hover {
+    margin-bottom: 0.5rem;
+    color: rgba(0, 0, 0, 0.5);
+    background-color: #ff7675;
+    transition: background-color 0.3s ease-in-out;
+  }
 `;
+
 const ButtonBoard = styled.button`
-  font-size: 20px;
-  top: 0px;
-  left: 0px;
-  position: relative;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 140px;
+  height: 45px;
+  font-size: 18px;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  &:hover {
+    background-color: #2ee59d;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
 `;
+const Header = styled.h1`
+  font-size: 100px;
+  text-align: left;
+  margin-left: 200px;
+  margin-top: 20px;
+  height: 120px;
+  width: 100%;
+  padding-left: 20px;
+  background-color: #2cd9d975;
+  box-shadow: 4px 4px 8px #888888;
+`;
+
 function App() {
   const [toDos, settoDos] = useRecoilState(toDoState);
   const onAddBoard = () => {
@@ -64,7 +111,6 @@ function App() {
       }
     } else if (source.droppableId !== "boards") {
       if (!destination) return;
-
       if (destination.droppableId === "trash") {
         settoDos((prev) => {
           const toDosCopy = [...prev];
@@ -129,7 +175,11 @@ function App() {
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <ButtonBoard onClick={onAddBoard}>+</ButtonBoard>
+      <ButtonBoard onClick={onAddBoard}>Add Board</ButtonBoard>
+      <Header>Trello</Header>
+      <Helmet>
+        <title>Trello</title>
+      </Helmet>
       <Wrapper>
         <Droppable droppableId="boards" direction="horizontal" type="BOARDS">
           {(provided, snapshot) => (
@@ -155,12 +205,12 @@ function App() {
         </Droppable>
         <Droppable droppableId="trash" type="BOARD">
           {(provided, snapshot) => (
-            <Area>
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                🗑
-              </div>
+            <div>
+              <Trash ref={provided.innerRef} {...provided.droppableProps}>
+                Delete
+              </Trash>
               {provided.placeholder}
-            </Area>
+            </div>
           )}
         </Droppable>
       </Wrapper>

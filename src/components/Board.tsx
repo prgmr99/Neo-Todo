@@ -23,14 +23,17 @@ const Container = styled.div<{ isDraggingOver: boolean }>`
   padding: 20px 5px;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 5px;
-  min-height: 450px;
+  min-height: 500px;
   display: flex;
   flex-direction: column;
-  width: 250px;
+  width: 300px;
   overflow: hidden;
   margin: 0px 100px;
   margin-left: -70px;
   justify-content: center;
+  &.hovering {
+    box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.75);
+  }
 `;
 const Area = styled.div<IAreaProps>`
   background-color: ${(props) =>
@@ -47,7 +50,8 @@ const Title = styled.h2`
   text-align: center;
   font-weight: 600;
   margin-bottom: 10px;
-  font-size: 18px;
+  margin-left: 50px;
+  font-size: 22px;
   color: ${(props) => props.theme.textColor};
   &:hover {
     color: #f8a092;
@@ -64,6 +68,7 @@ const Input = styled.input`
   border: 0.3px solid #8ea7e9;
   display: block;
   margin: auto;
+  font-size: 17px;
   padding: 7px 0px;
   padding-left: 10px;
   margin-bottom: 5px;
@@ -72,6 +77,48 @@ const Input = styled.input`
     background-color: #ffeaa7;
     transition: background-color 0.3s ease-in-out;
     box-shadow: 0px 0px 8px #0984e3;
+  }
+`;
+const FixBtn = styled.button`
+  float: right;
+  border: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  text-align: center;
+  font-size: 21px;
+  margin-top: 4px;
+  color: white;
+  text-shadow: 1px 1px #888888;
+  &:hover {
+    text-shadow: 3px 3px #888888;
+    font-size: 22px;
+    transition: color 0.3s ease-in-out;
+    color: #ff6b81;
+  }
+`;
+const DelBtn = styled.button`
+  float: right;
+  border: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  text-align: center;
+  margin-left: 5px;
+  font-size: 20px;
+  color: white;
+  text-shadow: 1px 1px #888888;
+  &:hover {
+    text-shadow: 3px 3px #888888;
+    font-size: 22px;
+    transition: color 0.3s ease-in-out;
+    color: #ff6b81;
   }
 `;
 
@@ -138,9 +185,11 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
           {...parentProvided.dragHandleProps}
         >
           <div>
-            <Title>{board.title}</Title>
-            <button onClick={onDelBtn}>❌</button>
-            <button onClick={onFixBtn}>📌</button>
+            <DelBtn onClick={onDelBtn}>𝖷</DelBtn>
+            <FixBtn onClick={onFixBtn}>⏎</FixBtn>
+            <div>
+              <Title>{board.title}</Title>
+            </div>
             <Form onSubmit={handleSubmit(onValid)}>
               <Input
                 {...register("toDo", { required: true })}

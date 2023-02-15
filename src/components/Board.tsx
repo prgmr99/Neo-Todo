@@ -220,48 +220,50 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
   return (
     <Droppable droppableId={"board-" + board.id} type="BOARD">
       {(magic, info) => (
-        <Container
-          isDraggingOver={info.isDraggingOver}
-          className={`${info.isDraggingOver ? "dragging" : ""} ${
-            isHovering ? "hovering" : ""
-          }`}
-          ref={(parentProvided.innerRef, containerRef as any)}
-          {...parentProvided.draggableProps}
-          {...parentProvided.dragHandleProps}
-        >
-          <div>
-            <DelBtn onClick={onDelBtn}>𝖷</DelBtn>
-            <FixBtn onClick={onFixBtn}>⏎</FixBtn>
-            <div>
-              <Title>{board.title}</Title>
-            </div>
-            <Form onSubmit={handleSubmit(onValid)}>
-              <Input
-                {...register("toDo", { required: true })}
-                type="text"
-                placeholder={`"${board.title}" 추가하기`}
-                disabled={inputDisable}
-              />
-            </Form>
-          </div>
-          <Area
+        <div ref={containerRef as any}>
+          <Container
             isDraggingOver={info.isDraggingOver}
-            isDraggingFromThis={Boolean(info.draggingFromThisWith)}
-            ref={magic.innerRef}
-            {...magic.droppableProps}
+            className={`${info.isDraggingOver ? "dragging" : ""} ${
+              isHovering ? "hovering" : ""
+            }`}
+            ref={parentProvided.innerRef}
+            {...parentProvided.draggableProps}
+            {...parentProvided.dragHandleProps}
           >
-            {board.toDos.map((toDo, index) => (
-              <DraggableCard
-                key={toDo.id}
-                index={index}
-                toDoId={toDo.id}
-                toDo={toDo}
-                boardId={board.id}
-              />
-            ))}
-            {magic.placeholder}
-          </Area>
-        </Container>
+            <div>
+              <DelBtn onClick={onDelBtn}>𝖷</DelBtn>
+              <FixBtn onClick={onFixBtn}>⏎</FixBtn>
+              <div>
+                <Title>{board.title}</Title>
+              </div>
+              <Form onSubmit={handleSubmit(onValid)}>
+                <Input
+                  {...register("toDo", { required: true })}
+                  type="text"
+                  placeholder={`"${board.title}" 추가하기`}
+                  disabled={inputDisable}
+                />
+              </Form>
+            </div>
+            <Area
+              isDraggingOver={info.isDraggingOver}
+              isDraggingFromThis={Boolean(info.draggingFromThisWith)}
+              ref={magic.innerRef}
+              {...magic.droppableProps}
+            >
+              {board.toDos.map((toDo, index) => (
+                <DraggableCard
+                  key={toDo.id}
+                  index={index}
+                  toDoId={toDo.id}
+                  toDo={toDo}
+                  boardId={board.id}
+                />
+              ))}
+              {magic.placeholder}
+            </Area>
+          </Container>
+        </div>
       )}
     </Droppable>
   );

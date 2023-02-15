@@ -75,7 +75,7 @@ const Header = styled.h1`
   font-size: 75px;
   text-align: left;
   margin-left: 180px;
-  margin-top: calc(100vh - 750px);
+  margin-top: 5vh;
   height: 85px;
   width: 100%;
   padding-left: 20px;

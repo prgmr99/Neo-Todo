@@ -28,8 +28,8 @@ const Container = styled.div<{ isDraggingOver: boolean }>`
   padding: 20px 5px;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 5px;
-  min-height: calc(100vh - 350px);
-  max-height: calc(100vh - 250px);
+  min-height: 55vh;
+  max-height: 70vh;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
@@ -37,7 +37,7 @@ const Container = styled.div<{ isDraggingOver: boolean }>`
   margin: 0px 100px;
   margin-left: -70px;
   margin-top: 20px;
-  justify-content: center;
+  justify-content: flex-start;
   box-shadow: 2px 2px 4px #888888;
   &.hovering {
     box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.75);

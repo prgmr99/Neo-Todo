@@ -209,14 +209,14 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
     if (containerRef.current?.clientHeight !== undefined) {
       setHeight(containerRef.current?.clientHeight);
     }
-    if (height > 514) {
+    if (height > 700) {
       setInputDisable(true);
     }
     if (height <= 500) {
       setInputDisable(false);
     }
   }, [containerRef.current?.clientHeight]);
-  console.log(containerRef?.current?.clientHeight);
+  console.log(containerRef);
   return (
     <Droppable droppableId={"board-" + board.id} type="BOARD">
       {(magic, info) => (

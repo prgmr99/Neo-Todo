@@ -36,7 +36,7 @@ const Container = styled.div<{ isDraggingOver: boolean }>`
   width: 270px;
   margin: 0px 100px;
   margin-left: -70px;
-  margin-top: 70px;
+  margin-top: 20px;
   justify-content: center;
   box-shadow: 2px 2px 4px #888888;
   &.hovering {

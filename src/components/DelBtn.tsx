@@ -8,7 +8,7 @@ interface ButtonProps {
   boardId: number;
 }
 const Span = styled.span`
-  float: right;
+  padding: 0px 8px;
 `;
 
 const DelBtn = (props: ButtonProps) => {
@@ -34,7 +34,7 @@ const DelBtn = (props: ButtonProps) => {
   };
   return (
     <Span onClick={onClick} {...props}>
-      ✂️
+      ❌
     </Span>
   );
 };

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useRef, useState } from "react";
 import { Droppable, DraggableProvided } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import { toDoState, IBoard } from "../atoms";
@@ -7,6 +8,9 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 import DraggableCard from "./DraggableCard";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
+interface IContainer {
+  clientHeight: number;
+}
 interface IForm {
   toDo: string;
 }
@@ -24,14 +28,17 @@ const Container = styled.div<{ isDraggingOver: boolean }>`
   padding: 20px 5px;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 5px;
-  min-height: 500px;
+  min-height: calc(100vh - 350px);
+  max-height: calc(100vh - 250px);
   display: flex;
+  flex-wrap: nowrap;
   flex-direction: column;
-  width: 300px;
-  overflow: hidden;
+  width: 270px;
   margin: 0px 100px;
   margin-left: -70px;
+  margin-top: 70px;
   justify-content: center;
+  box-shadow: 2px 2px 4px #888888;
   &.hovering {
     box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.75);
   }
@@ -52,7 +59,7 @@ const Title = styled.h2`
   font-weight: 600;
   margin-bottom: 10px;
   margin-left: 50px;
-  font-size: 22px;
+  font-size: 20px;
   color: ${(props) => props.theme.textColor};
   &:hover {
     color: #f8a092;
@@ -69,7 +76,7 @@ const Input = styled.input`
   border: 0.3px solid #8ea7e9;
   display: block;
   margin: auto;
-  font-size: 17px;
+  font-size: 15px;
   padding: 7px 0px;
   padding-left: 10px;
   margin-bottom: 5px;
@@ -125,6 +132,9 @@ const DelBtn = styled.button`
 
 function Board({ board, parentProvided, isHovering }: IBoardProps) {
   const setTodos = useSetRecoilState(toDoState);
+  const [height, setHeight] = useState(0);
+  const [inputDisable, setInputDisable] = useState(false);
+  const containerRef = useRef<IContainer>();
   //const getTodos = useRecoilValue(toDoState);
   const { register, setValue, handleSubmit } = useForm<IForm>();
   const onDelBtn = () => {
@@ -172,10 +182,10 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
 
     (async () => {
       const { value: getName } = await Swal.fire({
-        title: "새로운 이름을 입력해주세요",
-        text: "보드 이름",
+        title: "새로운 이름을 입력해주세요.",
+        text: "변경할 보드 이름",
         input: "text",
-        inputPlaceholder: "이름을 입력..",
+        inputPlaceholder: "이름을 입력해주세요.",
       });
 
       // 이후 처리되는 내용.
@@ -195,6 +205,18 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
       });
     })();
   };
+  useEffect(() => {
+    if (containerRef.current?.clientHeight !== undefined) {
+      setHeight(containerRef.current?.clientHeight);
+    }
+    if (height > 514) {
+      setInputDisable(true);
+    }
+    if (height <= 500) {
+      setInputDisable(false);
+    }
+  }, [containerRef.current?.clientHeight]);
+  console.log(containerRef?.current?.clientHeight);
   return (
     <Droppable droppableId={"board-" + board.id} type="BOARD">
       {(magic, info) => (
@@ -203,7 +225,7 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
           className={`${info.isDraggingOver ? "dragging" : ""} ${
             isHovering ? "hovering" : ""
           }`}
-          ref={parentProvided.innerRef}
+          ref={(parentProvided.innerRef, containerRef as any)}
           {...parentProvided.draggableProps}
           {...parentProvided.dragHandleProps}
         >
@@ -218,6 +240,7 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
                 {...register("toDo", { required: true })}
                 type="text"
                 placeholder={`"${board.title}" 추가하기`}
+                disabled={inputDisable}
               />
             </Form>
           </div>

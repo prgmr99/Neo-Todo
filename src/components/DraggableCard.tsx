@@ -15,7 +15,7 @@ interface IDraggableCardProps {
 const Card = styled.div<{ isDragging: boolean; boardId: string }>`
   margin-bottom: 5px;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px 5px;
   background-color: ${(props) =>
     props.boardId === "trash"
       ? "red"
@@ -26,7 +26,11 @@ const Card = styled.div<{ isDragging: boolean; boardId: string }>`
     props.isDragging
       ? "0px 3px 5px rgba(0,0,0,1)"
       : "0px 1px 2px rgba(0,0,0,1)"};
-  font-size: 19px;
+  font-size: 15px;
+  display: flex;
+
+  align-items: center;
+  word-break: break-all;
 `;
 
 function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
@@ -42,8 +46,8 @@ function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
           {...provided.dragHandleProps}
           {...provided.draggableProps}
         >
-          {toDo.text}
           <DelBtn index={index} toDoId={toDoId} boardId={boardId}></DelBtn>
+          {toDo.text}
         </Card>
       )}
     </Draggable>

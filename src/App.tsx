@@ -72,11 +72,11 @@ const ButtonBoard = styled.button`
   }
 `;
 const Header = styled.h1`
-  font-size: 100px;
+  font-size: 75px;
   text-align: left;
-  margin-left: 200px;
-  margin-top: 20px;
-  height: 120px;
+  margin-left: 180px;
+  margin-top: calc(100vh - 770px);
+  height: 85px;
   width: 100%;
   padding-left: 20px;
   background-color: #2cd9d975;
@@ -102,15 +102,14 @@ function App() {
 
     (async () => {
       const { value: getName } = await Swal.fire({
-        title: "이름을 입력해주세요",
-        text: "보드 이름",
+        title: "보드 이름을 입력해주세요.",
         input: "text",
-        inputPlaceholder: "이름을 입력..",
+        inputPlaceholder: "이름을 입력해주세요.",
       });
 
       // 이후 처리되는 내용.
       if (getName) {
-        Swal.fire("Saved!");
+        Swal.fire("생성 완료!");
       }
       if (getName === "") {
         return;

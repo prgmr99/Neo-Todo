@@ -74,7 +74,7 @@ const ButtonBoard = styled.button`
 const Header = styled.h1`
   font-size: 75px;
   text-align: left;
-  margin-left: 180px;
+  margin-left: 25vh;
   margin-top: 5vh;
   height: 85px;
   width: 100%;

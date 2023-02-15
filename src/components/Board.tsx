@@ -242,6 +242,7 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
                   type="text"
                   placeholder={`"${board.title}" 추가하기`}
                   disabled={inputDisable}
+                  autoComplete="off"
                 />
               </Form>
             </div>

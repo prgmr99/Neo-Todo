@@ -216,7 +216,7 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
       setInputDisable(false);
     }
   }, [containerRef.current?.clientHeight]);
-  console.log(containerRef);
+
   return (
     <Droppable droppableId={"board-" + board.id} type="BOARD">
       {(magic, info) => (

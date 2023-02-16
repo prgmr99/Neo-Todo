@@ -72,7 +72,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>-->
     </li>
-    <!--<li><a href="#usage">Usage</a></li>-->
+    <li><a href="#usage">Usage</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <!--<li><a href="#contact">Contact</a></li>
@@ -124,11 +124,15 @@ You just need to access [https://prgmr99.github.io/Trello-clone](https://prgmr99
 
 
 <!-- USAGE EXAMPLES -->
-<!--## Usage
+--## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+1. Put "to dos" or something else that you want in the input box so that you add a new list in the category.
+2. You can create a new category by clicking the "Add Board" button.
+3. You can also delete the board by clicking the "X" button. 
+4. If you click the "⏎" button, you can modify the name of the board.
+5. You can drag the list to the area of the category that you want to put. 
+6. You can delete the list by clicking the "❌" button or dragging the board to "Delete" area.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>-->
 

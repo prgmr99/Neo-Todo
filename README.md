@@ -124,7 +124,7 @@ You just need to access [https://prgmr99.github.io/Trello-clone](https://prgmr99
 
 
 <!-- USAGE EXAMPLES -->
---## Usage
+## Usage
 
 1. Put "to dos" or something else that you want in the input box so that you add a new list in the category.
 2. You can create a new category by clicking the "Add Board" button.
@@ -134,7 +134,7 @@ You just need to access [https://prgmr99.github.io/Trello-clone](https://prgmr99
 6. You can delete the list by clicking the "❌" button or dragging the board to "Delete" area.
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>-->
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 

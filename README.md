@@ -109,7 +109,6 @@ Goals:
 * [![JQuery][JQuery.com]][JQuery-url]-->
 * [![React][React.js]][React-url]
 * [![Typescript][Typescript.js]][Typescript-url]
-* 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

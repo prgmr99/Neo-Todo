@@ -73,7 +73,6 @@
       </ul>-->
     </li>
     <!--<li><a href="#usage">Usage</a></li>-->
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <!--<li><a href="#contact">Contact</a></li>
@@ -85,13 +84,12 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+<img width="1419" alt="image" src="https://user-images.githubusercontent.com/76275691/219311642-d55590f5-9438-4c93-99b0-2107c769fe8a.png">
 
-
-Learning React Js and typescript by cloning Trello.
+Learning recoil, react-beautiful-dnd, useRef in React JS and getting familar with typescript.
 
 Goals:
-* Implementation of 'toggle mode' which has dark mode and light mode.
-* Learning react-query for APIs and react-router.
+* Learning the usage of "react-beautiful-dnd", set and selector in recoil, and useRef in react.
 
 <!--Use the `BLANK_README.md` to get started.-->
 
@@ -111,6 +109,7 @@ Goals:
 * [![JQuery][JQuery.com]][JQuery-url]-->
 * [![React][React.js]][React-url]
 * [![Typescript][Typescript.js]][Typescript-url]
+* 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -133,22 +132,6 @@ Use this space to show useful examples of how a project can be used. Additional 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>-->
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Implement toggle mode
-- [x] Use react-query to bring APIs
-- [x] Create a 'Home' component to show cryptocurrencies
-- [x] Create a 'Info' component to show information of a specific crypto that has been selected
-- [x] Deploy
-
-
-<!--See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).-->
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 

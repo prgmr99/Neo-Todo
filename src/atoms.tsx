@@ -98,3 +98,8 @@ export const trashState = atom({
   key: "trash",
   default: ["hello"],
 });
+
+export const isDarkAtom = atom({
+  key: "isDark",
+  default: true,
+});

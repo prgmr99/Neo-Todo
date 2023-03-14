@@ -46,10 +46,10 @@ const Container = styled.div<{ isDraggingOver: boolean }>`
 const Area = styled.div<IAreaProps>`
   background-color: ${(props) =>
     props.isDraggingOver
-      ? "#dfe6e9"
+      ? props.theme.cardEnterColor
       : props.isDraggingFromThis
-      ? "#b2bec3"
-      : "#CBF1F5"};
+      ? props.theme.cardExitColor
+      : props.theme.innerBoardColor};
   flex-grow: 1;
   transition: background-color 0.3s ease-in-out;
   padding: 20px;

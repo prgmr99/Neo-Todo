@@ -6,5 +6,11 @@ declare module "styled-components" {
     boardColor: string;
     cardColor: string;
     textColor: string;
+    headerColor: string;
+    boxShadowColor: string;
+    innerBoardColor: string;
+    cardEnterColor: string;
+    cardExitColor: string;
+    addBtnHoverColor: string;
   }
 }

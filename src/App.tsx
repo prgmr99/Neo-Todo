@@ -277,51 +277,53 @@ function App() {
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
         <ToggleBtn onClick={toggleDarkAtom}>{isDark ? "🌙" : "☀️"}</ToggleBtn>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <ButtonBoard onClick={onAddBoard}>Add Board</ButtonBoard>
-          <Header>Trello</Header>
-          <Helmet>
-            <title>Trello</title>
-          </Helmet>
-          <Wrapper>
-            <Droppable
-              droppableId="boards"
-              direction="horizontal"
-              type="BOARDS"
-            >
-              {(provided, snapshot) => (
-                <Boards ref={provided.innerRef} {...provided.droppableProps}>
-                  {toDos.map((board, index) => (
-                    <Draggable
-                      draggableId={"board-" + board.id}
-                      key={board.id}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <Board
-                          board={board}
-                          parentProvided={provided}
-                          isHovering={snapshot.isDragging}
-                        />
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </Boards>
-              )}
-            </Droppable>
-            <Droppable droppableId="trash" type="BOARD">
-              {(provided, snapshot) => (
-                <div>
-                  <Trash ref={provided.innerRef} {...provided.droppableProps}>
-                    Delete
-                  </Trash>
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </Wrapper>
-        </DragDropContext>
+        <>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <ButtonBoard onClick={onAddBoard}>Add Board</ButtonBoard>
+            <Header>Trello</Header>
+            <Helmet>
+              <title>Trello</title>
+            </Helmet>
+            <Wrapper>
+              <Droppable
+                droppableId="boards"
+                direction="horizontal"
+                type="BOARDS"
+              >
+                {(provided, snapshot) => (
+                  <Boards ref={provided.innerRef} {...provided.droppableProps}>
+                    {toDos.map((board, index) => (
+                      <Draggable
+                        draggableId={"board-" + board.id}
+                        key={board.id}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <Board
+                            board={board}
+                            parentProvided={provided}
+                            isHovering={snapshot.isDragging}
+                          />
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </Boards>
+                )}
+              </Droppable>
+              <Droppable droppableId="trash" type="BOARD">
+                {(provided, snapshot) => (
+                  <div>
+                    <Trash ref={provided.innerRef} {...provided.droppableProps}>
+                      Delete
+                    </Trash>
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </Wrapper>
+          </DragDropContext>
+        </>
       </ThemeProvider>
     </>
   );

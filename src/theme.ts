@@ -23,5 +23,5 @@ export const darkTheme: DefaultTheme = {
   innerBoardColor: "#E3DFFD",
   cardEnterColor: "#ECF2FF",
   cardExitColor: "#E5D1FA",
-  addBtnHoverColor: "",
+  addBtnHoverColor: "#2ee59d",
 };

@@ -52,9 +52,8 @@ function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
             {...provided.dragHandleProps}
             {...provided.draggableProps}
           >
-            <DelBtn index={index} toDoId={toDoId} boardId={boardId}></DelBtn>
+            <DelBtn index={index} toDoId={toDoId} boardId={boardId} />
             {toDo.text}
-            <Specific />
           </Card>
         )}
       </Draggable>

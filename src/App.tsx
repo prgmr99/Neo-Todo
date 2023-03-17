@@ -311,7 +311,7 @@ function App() {
                   </Boards>
                 )}
               </Droppable>
-              <Droppable droppableId="trash" type="BOARD">
+              {/*<Droppable droppableId="trash" type="BOARD">
                 {(provided, snapshot) => (
                   <div>
                     <Trash ref={provided.innerRef} {...provided.droppableProps}>
@@ -320,7 +320,7 @@ function App() {
                     {provided.placeholder}
                   </div>
                 )}
-              </Droppable>
+                </Droppable>*/}
             </Wrapper>
           </DragDropContext>
         </>

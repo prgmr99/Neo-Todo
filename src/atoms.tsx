@@ -103,3 +103,8 @@ export const isDarkAtom = atom({
   key: "isDark",
   default: true,
 });
+
+export const isCheckedAtom = atom({
+  key: "isChecked",
+  default: false,
+});

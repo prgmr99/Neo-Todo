@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { Draggable } from "react-beautiful-dnd";
-import { toDoState, ITodo } from "../atoms";
+import { toDoState, ITodo, isCheckedAtom } from "../atoms";
 import DelBtn from "./DelBtn";
 import Swal from "sweetalert2";
 
@@ -46,6 +46,7 @@ const ModBtn = styled.button`
 `;
 
 function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
+  const isChecked = useRecoilValue(isCheckedAtom);
   const setTodos = useSetRecoilState(toDoState);
   const onFixBtn = (index: number) => {
     (async () => {
@@ -91,7 +92,7 @@ function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
           >
             <DelBtn index={index} toDoId={toDoId} boardId={boardId} />
             {toDo.text}
-            <ModBtn onClick={() => onFixBtn(index)}>M</ModBtn>
+            <ModBtn onClick={() => onFixBtn(index)}>✏️</ModBtn>
           </Card>
         )}
       </Draggable>

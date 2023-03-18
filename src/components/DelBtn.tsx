@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { toDoState } from "../atoms";
+import { isCheckedAtom, toDoState } from "../atoms";
 
 interface ButtonProps {
   index: number;
@@ -13,6 +14,7 @@ const Span = styled.span`
 
 const DelBtn = (props: ButtonProps) => {
   const [toDos, settoDos] = useRecoilState(toDoState);
+  const [isChecked, setIsChecked] = useRecoilState(isCheckedAtom);
   const onClick = () => {
     settoDos((prev) => {
       const toDosCopy = [...prev];
@@ -31,6 +33,7 @@ const DelBtn = (props: ButtonProps) => {
 
       return toDosCopy;
     });
+    setIsChecked((prev) => !prev);
   };
   return (
     <Span onClick={onClick} {...props}>

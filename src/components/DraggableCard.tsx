@@ -44,6 +44,9 @@ const ModBtn = styled.button`
   color: white;
   float: right;
 `;
+const TxtArea = styled.span`
+  padding-right: 8px;
+`;
 
 function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
   const isChecked = useRecoilValue(isCheckedAtom);
@@ -91,7 +94,7 @@ function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
             {...provided.draggableProps}
           >
             <DelBtn index={index} toDoId={toDoId} boardId={boardId} />
-            {toDo.text}
+            <TxtArea>{toDo.text}</TxtArea>
             <ModBtn onClick={() => onFixBtn(index)}>✏️</ModBtn>
           </Card>
         )}

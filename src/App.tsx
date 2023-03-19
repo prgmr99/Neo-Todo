@@ -150,7 +150,7 @@ const ToggleBtn = styled.button`
   font-size: 30px;
   position: absolute;
   top: 3vh;
-  left: 3vw;
+  left: 93vw;
   background-color: transparent;
   border: none;
 `;

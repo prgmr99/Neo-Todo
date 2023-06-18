@@ -38,7 +38,7 @@ const Card = styled.div<ICard>`
   align-items: center;
   word-break: break-all;
 `;
-const ModBtn = styled.button`
+const ModBtn = styled.div`
   border: none;
   background-color: transparent;
   color: white;
@@ -46,6 +46,7 @@ const ModBtn = styled.button`
 `;
 const TxtArea = styled.span`
   padding-right: 8px;
+  margin: 0 auto;
 `;
 
 function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
@@ -94,8 +95,8 @@ function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
             {...provided.draggableProps}
           >
             <DelBtn index={index} toDoId={toDoId} boardId={boardId} />
-            <TxtArea>{toDo.text}</TxtArea>
             <ModBtn onClick={() => onFixBtn(index)}>✏️</ModBtn>
+            <TxtArea>{toDo.text}</TxtArea>
           </Card>
         )}
       </Draggable>

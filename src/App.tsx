@@ -3,7 +3,6 @@ import "GlobalStyle.css";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { toDoState, isDarkAtom } from "./atoms";
-import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 import { lightTheme, darkTheme } from "./theme";
 
@@ -171,9 +170,6 @@ function App() {
           <DragDropContext onDragEnd={onDragEnd}>
             <ButtonBoard onClick={onAddBoard}>Add Board</ButtonBoard>
             <Header>Trello</Header>
-            <Helmet>
-              <title>Trello</title>
-            </Helmet>
           </DragDropContext>
         </>
       </ThemeProvider>

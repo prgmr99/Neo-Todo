@@ -2,15 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { RecoilRoot } from "recoil";
-import { HelmetProvider } from "react-helmet-async";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <HelmetProvider>
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
-  </HelmetProvider>
+  <RecoilRoot>
+    <App />
+  </RecoilRoot>
 );

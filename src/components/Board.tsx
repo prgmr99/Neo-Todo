@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { Droppable, DraggableProvided } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import { toDoState, IBoard } from "../atoms";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState } from "recoil";
 import DraggableCard from "./DraggableCard";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 

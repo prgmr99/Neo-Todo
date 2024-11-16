@@ -158,16 +158,6 @@ const ToggleBtn = styled.button`
 function App() {
   const [toDos, settoDos] = useRecoilState(toDoState);
   const onAddBoard = () => {
-    /* const name = window.prompt("새 보드 이름을 입력해주세요!")?.trim();
-    if (name !== null && name !== undefined) {
-      if (name === "") {
-        alert("이름을 입력해주세요!");
-        return;
-      }
-      settoDos((prev) => {
-        return [...prev, { title: name, id: Date.now(), toDos: [] }];
-      });
-    } */
     const inputValue = fetch(sweetAPI)
       .then((response) => response.json())
       .then((data) => data.name);
@@ -179,7 +169,6 @@ function App() {
         inputPlaceholder: "이름을 입력해주세요.",
       });
 
-      // 이후 처리되는 내용.
       if (getName) {
         Swal.fire("생성 완료!");
       }
@@ -311,16 +300,6 @@ function App() {
                   </Boards>
                 )}
               </Droppable>
-              {/*<Droppable droppableId="trash" type="BOARD">
-                {(provided, snapshot) => (
-                  <div>
-                    <Trash ref={provided.innerRef} {...provided.droppableProps}>
-                      Delete
-                    </Trash>
-                    {provided.placeholder}
-                  </div>
-                )}
-                </Droppable>*/}
             </Wrapper>
           </DragDropContext>
         </>

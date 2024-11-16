@@ -1,5 +1,4 @@
 import styled, { ThemeProvider } from "styled-components";
-import "GlobalStyle.css";
 import Swal from "sweetalert2";
 
 import { DragDropContext, DropResult } from "react-beautiful-dnd";

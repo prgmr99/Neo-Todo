@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { isCheckedAtom, toDoState } from "../atoms";
 
 interface ButtonProps {
@@ -13,10 +12,11 @@ const Span = styled.span`
 `;
 
 const DelBtn = (props: ButtonProps) => {
-  const [toDos, settoDos] = useRecoilState(toDoState);
-  const [isChecked, setIsChecked] = useRecoilState(isCheckedAtom);
+  const setTodo = useSetRecoilState(toDoState);
+  const setIsChecked = useSetRecoilState(isCheckedAtom);
+
   const onClick = () => {
-    settoDos((prev) => {
+    setTodo((prev) => {
       const toDosCopy = [...prev];
       const boardIndex = toDosCopy.findIndex(
         (board) => board.id === props.boardId
@@ -35,6 +35,7 @@ const DelBtn = (props: ButtonProps) => {
     });
     setIsChecked((prev) => !prev);
   };
+
   return (
     <Span onClick={onClick} {...props}>
       ❌
@@ -43,8 +44,3 @@ const DelBtn = (props: ButtonProps) => {
 };
 
 export default DelBtn;
-
-// atom 값 중 boardId를 불러와야 해!!!
-// id랑 index는 아는데 어느 board인지는 앞에 두 개만 보고는 알 수 없어!
-// atom을 쓰지 않고 props로도 해결 가능할 수는 있어 그런데 복잡해지니까 쉽게 가자구 props drilling은 이야다...
-// 근데 배열

@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { Droppable, DraggableProvided } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import { toDoState, IBoard } from "../atoms";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState } from "recoil";
 import DraggableCard from "./DraggableCard";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
@@ -23,7 +23,7 @@ interface IAreaProps {
   isDraggingFromThis: boolean;
   isDraggingOver: boolean;
 }
-const sweetAPI = "//api.ipify.org?format=json";
+
 const Container = styled.div<{ isDraggingOver: boolean }>`
   padding: 20px 5px;
   background-color: ${(props) => props.theme.boardColor};
@@ -54,6 +54,7 @@ const Area = styled.div<IAreaProps>`
   transition: background-color 0.3s ease-in-out;
   padding: 20px;
 `;
+
 const Title = styled.h2`
   text-align: center;
   font-weight: 600;
@@ -66,9 +67,11 @@ const Title = styled.h2`
     transition: color 0.3s ease-in-out;
   }
 `;
+
 const Form = styled.form`
   width: 100%;
 `;
+
 const Input = styled.input`
   width: 90%;
   background-color: #e7f6f2;
@@ -87,6 +90,7 @@ const Input = styled.input`
     box-shadow: 0px 0px 8px #0984e3;
   }
 `;
+
 const FixBtn = styled.button`
   float: right;
   border: none;
@@ -108,6 +112,7 @@ const FixBtn = styled.button`
     color: #ff6b81;
   }
 `;
+
 const DelBtn = styled.button`
   float: right;
   border: none;
@@ -131,14 +136,14 @@ const DelBtn = styled.button`
 `;
 
 function Board({ board, parentProvided, isHovering }: IBoardProps) {
-  const setTodos = useSetRecoilState(toDoState);
+  const setTodo = useSetRecoilState(toDoState);
   const [height, setHeight] = useState(0);
   const [inputDisable, setInputDisable] = useState(false);
   const containerRef = useRef<IContainer>();
   //const getTodos = useRecoilValue(toDoState);
   const { register, setValue, handleSubmit } = useForm<IForm>();
   const onDelBtn = () => {
-    setTodos((prev) => {
+    setTodo((prev) => {
       const boardsCopy = [...prev];
       const boardIndex = prev.findIndex((b) => b.id === board.id);
       boardsCopy.splice(boardIndex, 1);
@@ -150,7 +155,7 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
       id: Date.now(),
       text: toDo,
     };
-    setTodos((prev) => {
+    setTodo((prev) => {
       const toDosCopy = [...prev];
       const boardIndex = prev.findIndex((b) => b.id === board.id);
       const boardCopy = { ...prev[boardIndex] };
@@ -162,23 +167,6 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
     setValue("toDo", "");
   };
   const onFixBtn = () => {
-    /*const name = window.prompt("보드 이름을 입력해주세요!")?.trim();
-    if (name !== null && name !== undefined) {
-      if (name === "") {
-        alert("이름을 입력해주세요!");
-        return;
-      }
-      if (name === board.title) {
-        alert("새로운 이름을 입력해주세요!");
-        return;
-      }
-      
-    }*/
-
-    const inputValue = fetch(sweetAPI)
-      .then((response) => response.json())
-      .then((data) => data.name);
-
     (async () => {
       const { value: getName } = await Swal.fire({
         title: "새로운 이름을 입력해주세요.",
@@ -187,14 +175,13 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
         inputPlaceholder: "이름을 입력해주세요.",
       });
 
-      // 이후 처리되는 내용.
       if (getName) {
         Swal.fire("Saved!");
       }
       if (getName === "") {
         return;
       }
-      setTodos((prev) => {
+      setTodo((prev) => {
         const boardsCopy = [...prev];
         const boardIndex = prev.findIndex((b) => b.id === board.id);
         const boardCopy = { ...prev[boardIndex] };
@@ -214,7 +201,7 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
     if (height <= 500) {
       setInputDisable(false);
     }
-  }, [containerRef.current?.clientHeight]);
+  }, [containerRef.current?.clientHeight, height]);
 
   return (
     <Droppable droppableId={"board-" + board.id} type="BOARD">

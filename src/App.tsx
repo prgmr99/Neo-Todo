@@ -1,12 +1,11 @@
 import styled, { ThemeProvider } from "styled-components";
 import "GlobalStyle.css";
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
-import { toDoState, isDarkAtom } from "./atoms";
 import Swal from "sweetalert2";
-import { lightTheme, darkTheme } from "./theme";
 
-const sweetAPI = "//api.ipify.org?format=json";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { toDoState, isDarkAtom } from "./atoms";
+import { lightTheme, darkTheme } from "./theme";
 
 const ButtonBoard = styled.button`
   display: block;
@@ -32,6 +31,7 @@ const ButtonBoard = styled.button`
     transform: translateY(-7px);
   }
 `;
+
 const Header = styled.h1`
   font-size: 75px;
   text-align: left;
@@ -44,6 +44,7 @@ const Header = styled.h1`
   background-color: ${(props) => props.theme.headerColor};
   box-shadow: 4px 4px 8px ${(props) => props.theme.boxShadowColor};
 `;
+
 const ToggleBtn = styled.button`
   font-size: 30px;
   position: absolute;
@@ -54,16 +55,12 @@ const ToggleBtn = styled.button`
 `;
 
 function App() {
-  const [toDos, settoDos] = useRecoilState(toDoState);
   const isDark = useRecoilValue(isDarkAtom);
+  const setToDo = useSetRecoilState(toDoState);
   const setDarkAtom = useSetRecoilState(isDarkAtom);
   const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
 
   const onAddBoard = () => {
-    const inputValue = fetch(sweetAPI)
-      .then((response) => response.json())
-      .then((data) => data.name);
-
     (async () => {
       const { value: getName } = await Swal.fire({
         title: "보드 이름을 입력해주세요.",
@@ -77,19 +74,19 @@ function App() {
       if (getName === "") {
         return;
       }
-      settoDos((prev) => {
+      setToDo((prev) => {
         return [...prev, { title: getName, id: Date.now(), toDos: [] }];
       });
     })();
   };
 
   const onDragEnd = (info: DropResult) => {
-    const { destination, source, draggableId } = info;
+    const { destination, source } = info;
     if (source.droppableId === "boards") {
       if (!destination) return;
       if (source.index === destination.index) return;
       if (source.index !== destination.index) {
-        settoDos((prev) => {
+        setToDo((prev) => {
           const toDosCopy = [...prev];
           const prevBoard = toDosCopy[source.index];
           toDosCopy.splice(source.index, 1);
@@ -100,7 +97,7 @@ function App() {
     } else if (source.droppableId !== "boards") {
       if (!destination) return;
       if (destination.droppableId === "trash") {
-        settoDos((prev) => {
+        setToDo((prev) => {
           const toDosCopy = [...prev];
           const boardIndex = toDosCopy.findIndex(
             (board) => board.id + "" === source.droppableId.split("-")[1]
@@ -115,7 +112,7 @@ function App() {
         return;
       }
       if (source.droppableId === destination.droppableId) {
-        settoDos((prev) => {
+        setToDo((prev) => {
           const toDosCopy = [...prev];
           const boardIndex = toDosCopy.findIndex(
             (board) => board.id + "" === source.droppableId.split("-")[1]
@@ -132,7 +129,7 @@ function App() {
         });
       }
       if (source.droppableId !== destination.droppableId) {
-        settoDos((prev) => {
+        setToDo((prev) => {
           const toDosCopy = [...prev];
           const sourceBoardIndex = toDosCopy.findIndex(
             (board) => board.id + "" === source.droppableId.split("-")[1]

@@ -5,6 +5,7 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { toDoState, isDarkAtom } from "./atoms";
 import { lightTheme, darkTheme } from "./theme";
+import Wrapper from "./components/Wrapper";
 
 const ButtonBoard = styled.button`
   display: block;
@@ -166,6 +167,7 @@ function App() {
           <DragDropContext onDragEnd={onDragEnd}>
             <ButtonBoard onClick={onAddBoard}>Add Board</ButtonBoard>
             <Header>Trello</Header>
+            <Wrapper />
           </DragDropContext>
         </>
       </ThemeProvider>

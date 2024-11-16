@@ -76,17 +76,17 @@ export const toDoState = atom<IBoard[]>({
   key: "toDos",
   default: [
     {
-      title: "해야 함",
+      title: "To Do",
       id: 0,
       toDos: [],
     },
     {
-      title: "하는 중",
+      title: "Working",
       id: 1,
       toDos: [],
     },
     {
-      title: "다 함",
+      title: "Done",
       id: 2,
       toDos: [],
     },

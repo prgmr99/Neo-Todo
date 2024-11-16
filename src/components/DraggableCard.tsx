@@ -37,19 +37,22 @@ const Card = styled.div<ICard>`
   align-items: center;
   word-break: break-all;
 `;
+
 const ModBtn = styled.div`
   border: none;
   background-color: transparent;
   color: white;
   float: right;
 `;
+
 const TxtArea = styled.span`
   padding-right: 8px;
   margin: 0 auto;
 `;
 
 function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
-  const setTodos = useSetRecoilState(toDoState);
+  const setTodo = useSetRecoilState(toDoState);
+
   const onFixBtn = (index: number) => {
     (async () => {
       const { value: getTodo } = await Swal.fire({
@@ -59,14 +62,13 @@ function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
         inputPlaceholder: "Todo를 입력해주세요.",
       });
 
-      // 이후 처리되는 내용.
       if (getTodo) {
         Swal.fire("Saved!");
       }
       if (getTodo === "") {
         return;
       }
-      setTodos((prev) => {
+      setTodo((prev) => {
         const toDosCopy = [...prev];
         const boardIndex = prev.findIndex((b) => b.id === boardId);
         const boardCopy = { ...toDosCopy[boardIndex] };
@@ -81,6 +83,7 @@ function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
       });
     })();
   };
+
   return (
     <div>
       <Draggable key={toDoId} draggableId={"todo-" + toDo.id} index={index}>

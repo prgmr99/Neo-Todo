@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { isCheckedAtom, toDoState } from "../atoms";
 
 interface ButtonProps {
@@ -12,10 +12,11 @@ const Span = styled.span`
 `;
 
 const DelBtn = (props: ButtonProps) => {
-  const [toDos, settoDos] = useRecoilState(toDoState);
-  const [isChecked, setIsChecked] = useRecoilState(isCheckedAtom);
+  const setTodo = useSetRecoilState(toDoState);
+  const setIsChecked = useSetRecoilState(isCheckedAtom);
+
   const onClick = () => {
-    settoDos((prev) => {
+    setTodo((prev) => {
       const toDosCopy = [...prev];
       const boardIndex = toDosCopy.findIndex(
         (board) => board.id === props.boardId
@@ -34,6 +35,7 @@ const DelBtn = (props: ButtonProps) => {
     });
     setIsChecked((prev) => !prev);
   };
+
   return (
     <Span onClick={onClick} {...props}>
       ❌

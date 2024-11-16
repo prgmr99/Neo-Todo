@@ -6,6 +6,7 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 import { toDoState, isDarkAtom } from "./atoms";
 import { lightTheme, darkTheme } from "./theme";
 import Wrapper from "./components/Wrapper";
+import { GlobalStyle } from "./GlobalStyle.style";
 
 const ButtonBoard = styled.button`
   display: block;
@@ -162,6 +163,7 @@ function App() {
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <GlobalStyle />
         <ToggleBtn onClick={toggleDarkAtom}>{isDark ? "🌙" : "☀️"}</ToggleBtn>
         <>
           <DragDropContext onDragEnd={onDragEnd}>

@@ -7,6 +7,18 @@ import { toDoState } from "../../atoms";
 import Board from "../Board/Board";
 import Title from "../Title";
 
+const AppWrapper = styled.section`
+  height: 76vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 1200px;
+  min-width: 360px;
+  margin-top: 120px;
+`;
+
 const SWrapper = styled.div`
   display: flex;
   max-width: 1000px;
@@ -14,7 +26,6 @@ const SWrapper = styled.div`
   margin: 0 auto;
   justify-content: center;
   align-items: center;
-  height: 70vh;
 `;
 
 const Boards = styled.div`
@@ -25,7 +36,7 @@ const Wrapper = () => {
   const toDos = useRecoilValue(toDoState);
 
   return (
-    <>
+    <AppWrapper>
       <Title />
       <SWrapper>
         <Droppable droppableId="boards" direction="horizontal" type="BOARDS">
@@ -51,7 +62,7 @@ const Wrapper = () => {
           )}
         </Droppable>
       </SWrapper>
-    </>
+    </AppWrapper>
   );
 };
 

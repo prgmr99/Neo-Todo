@@ -38,6 +38,7 @@ const Container = styled.div<{ isDraggingOver: boolean }>`
   margin-left: -70px;
   margin-top: 20px;
   justify-content: flex-start;
+  box-sizing: border-box;
   box-shadow: 2px 2px 4px #888888;
   &.hovering {
     box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.75);
@@ -59,9 +60,9 @@ const Title = styled.h2`
   text-align: center;
   font-weight: 600;
   margin-bottom: 10px;
-  margin-left: 50px;
   font-size: 20px;
   color: ${(props) => props.theme.textColor};
+
   &:hover {
     color: #f8a092;
     transition: color 0.3s ease-in-out;

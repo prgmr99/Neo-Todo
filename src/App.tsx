@@ -10,7 +10,7 @@ import Wrapper from "./components/Wrapper";
 import ToggleButton from "./components/ToggleButton";
 
 function App() {
-  const isDark = useRecoilValue(isDarkAtom);
+  const isDarkMode = useRecoilValue(isDarkAtom);
   const setToDo = useSetRecoilState(toDoState);
 
   const handleBoardReorder = (
@@ -117,7 +117,7 @@ function App() {
 
   return (
     <>
-      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
         <GlobalStyle />
         <ToggleButton />
         <DragDropContext onDragEnd={onDragEnd}>

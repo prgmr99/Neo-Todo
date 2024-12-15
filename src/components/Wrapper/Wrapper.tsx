@@ -20,16 +20,14 @@ const AppWrapper = styled.section`
 `;
 
 const SWrapper = styled.div`
-  display: flex;
-  max-width: 1000px;
-  width: 100%;
   margin: 0 auto;
-  justify-content: center;
-  align-items: center;
 `;
 
 const Boards = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 28px;
 `;
 
 const Wrapper = () => {

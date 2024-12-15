@@ -25,21 +25,19 @@ interface IAreaProps {
 }
 
 const Container = styled.div<{ isDraggingOver: boolean }>`
-  padding: 20px 5px;
+  padding: 20px 12px;
   background-color: ${(props) => props.theme.boardColor};
-  border-radius: 5px;
+  border-radius: 8px;
   min-height: 55vh;
   max-height: 70vh;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
+  gap: 8px;
   width: 270px;
-  margin: 0px 100px;
-  margin-left: -70px;
-  margin-top: 20px;
   justify-content: flex-start;
   box-sizing: border-box;
-  box-shadow: 2px 2px 4px #888888;
+  box-shadow: 4px 4px 8px ${(props) => props.theme.boxShadowColor};
   &.hovering {
     box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.75);
   }
@@ -54,6 +52,7 @@ const Area = styled.div<IAreaProps>`
   flex-grow: 1;
   transition: background-color 0.3s ease-in-out;
   padding: 20px;
+  border-radius: 8px;
 `;
 
 const Title = styled.h2`
@@ -74,17 +73,17 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  width: 90%;
+  width: 100%;
   background-color: #e7f6f2;
   border-radius: 5px;
   border: 0.3px solid #8ea7e9;
   display: block;
   margin: auto;
   font-size: 15px;
-  padding: 7px 0px;
+  padding: 7px 0;
   padding-left: 10px;
   margin-bottom: 5px;
-  box-shadow: 0px 0px 10px #ddd;
+
   &:hover {
     background-color: #ffeaa7;
     transition: background-color 0.3s ease-in-out;

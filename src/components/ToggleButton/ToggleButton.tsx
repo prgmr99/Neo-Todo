@@ -13,12 +13,12 @@ const SToggleButton = styled.button`
 `;
 
 const ToggleButton = () => {
-  const [isDark, setDarkAtom] = useRecoilState(isDarkAtom);
+  const [isDarkMode, setDarkAtom] = useRecoilState(isDarkAtom);
   const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
 
   return (
     <SToggleButton onClick={toggleDarkAtom}>
-      {isDark ? "🌙" : "☀️"}
+      {isDarkMode ? "🌙" : "☀️"}
     </SToggleButton>
   );
 };

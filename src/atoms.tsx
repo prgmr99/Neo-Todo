@@ -100,7 +100,7 @@ export const trashState = atom({
 });
 
 export const isDarkAtom = atom({
-  key: "isDark",
+  key: "isDarkMode",
   default: true,
 });
 

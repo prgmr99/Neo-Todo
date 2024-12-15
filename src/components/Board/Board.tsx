@@ -98,6 +98,8 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
   const containerRef = useRef<IContainer>();
   const { register, setValue, handleSubmit } = useForm<IForm>();
 
+  console.log("테스트 커밋");
+
   const onValid = ({ toDo }: IForm) => {
     const newTodo = {
       id: Date.now(),

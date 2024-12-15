@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
-import { isCheckedAtom, toDoState } from "../atoms";
+import { isCheckedAtom, toDoState } from "../../atoms";
 
 interface ButtonProps {
   index: number;
@@ -11,7 +11,7 @@ const Span = styled.span`
   padding: 0px 8px;
 `;
 
-const DelBtn = (props: ButtonProps) => {
+const DeleteButton = (props: ButtonProps) => {
   const setTodo = useSetRecoilState(toDoState);
   const setIsChecked = useSetRecoilState(isCheckedAtom);
 
@@ -43,4 +43,4 @@ const DelBtn = (props: ButtonProps) => {
   );
 };
 
-export default DelBtn;
+export default DeleteButton;

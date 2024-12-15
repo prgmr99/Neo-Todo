@@ -1,85 +1,17 @@
-import styled, { ThemeProvider } from "styled-components";
-import Swal from "sweetalert2";
+import { ThemeProvider } from "styled-components";
 
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { toDoState, isDarkAtom } from "./atoms";
 import { lightTheme, darkTheme } from "./theme";
-import Wrapper from "./components/Wrapper";
 import { GlobalStyle } from "./GlobalStyle.style";
 
-const ButtonBoard = styled.button`
-  display: block;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  margin-top: 20px;
-  width: 140px;
-  height: 45px;
-  font-size: 18px;
-  color: #000;
-  background-color: #fff;
-  border: none;
-  border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease 0s;
-  cursor: pointer;
-  outline: none;
-  &:hover {
-    background-color: #2ee59d;
-    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
-    color: #fff;
-    transform: translateY(-7px);
-  }
-`;
-
-const Header = styled.h1`
-  font-size: 75px;
-  text-align: left;
-  margin-left: 25vh;
-  margin-top: 5vh;
-  height: 85px;
-  width: 100%;
-  color: ${(props) => props.theme.textColor};
-  padding-left: 20px;
-  background-color: ${(props) => props.theme.headerColor};
-  box-shadow: 4px 4px 8px ${(props) => props.theme.boxShadowColor};
-`;
-
-const ToggleBtn = styled.button`
-  font-size: 30px;
-  position: absolute;
-  top: 3vh;
-  left: 93vw;
-  background-color: transparent;
-  border: none;
-`;
+import Wrapper from "./components/Wrapper";
+import ToggleButton from "./components/ToggleButton";
 
 function App() {
   const isDark = useRecoilValue(isDarkAtom);
   const setToDo = useSetRecoilState(toDoState);
-  const setDarkAtom = useSetRecoilState(isDarkAtom);
-  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
-
-  const onAddBoard = () => {
-    (async () => {
-      const { value: getName } = await Swal.fire({
-        title: "보드 이름을 입력해주세요.",
-        input: "text",
-        inputPlaceholder: "이름을 입력해주세요.",
-      });
-
-      if (getName) {
-        Swal.fire("생성 완료!");
-      }
-      if (getName === "") {
-        return;
-      }
-      setToDo((prev) => {
-        return [...prev, { title: getName, id: Date.now(), toDos: [] }];
-      });
-    })();
-  };
 
   const handleBoardReorder = (
     sourceIndex: number,
@@ -187,14 +119,10 @@ function App() {
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
-        <ToggleBtn onClick={toggleDarkAtom}>{isDark ? "🌙" : "☀️"}</ToggleBtn>
-        <>
-          <DragDropContext onDragEnd={onDragEnd}>
-            <ButtonBoard onClick={onAddBoard}>Add Board</ButtonBoard>
-            <Header>Trello</Header>
-            <Wrapper />
-          </DragDropContext>
-        </>
+        <ToggleButton />
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Wrapper />
+        </DragDropContext>
       </ThemeProvider>
     </>
   );

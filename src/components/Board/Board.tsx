@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useRef, useState } from "react";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+
 import { Droppable, DraggableProvided } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
-import { toDoState, IBoard } from "../atoms";
 import { useSetRecoilState } from "recoil";
-import DraggableCard from "./DraggableCard";
-import Swal from "sweetalert2/dist/sweetalert2.js";
+import { toDoState, IBoard } from "../../atoms";
+
+import Card from "../Card/Card";
 
 interface IContainer {
   clientHeight: number;
@@ -239,7 +240,7 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
               {...magic.droppableProps}
             >
               {board.toDos.map((toDo, index) => (
-                <DraggableCard
+                <Card
                   key={toDo.id}
                   index={index}
                   toDoId={toDo.id}

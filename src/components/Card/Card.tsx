@@ -1,23 +1,25 @@
 import React from "react";
 import styled from "styled-components";
-import { useSetRecoilState } from "recoil";
-import { Draggable } from "react-beautiful-dnd";
-import { toDoState, ITodo } from "../atoms";
-import DelBtn from "./DelBtn";
 import Swal from "sweetalert2";
 
-interface IDraggableCardProps {
+import { useSetRecoilState } from "recoil";
+import { Draggable } from "react-beautiful-dnd";
+import { toDoState, ITodo } from "../../atoms";
+
+import DeleteButton from "../DeleteButton";
+
+interface DraggableCardProps {
   toDoId: number;
   toDo: ITodo;
   index: number;
   boardId: number;
 }
-interface ICard {
+interface CardProps {
   isDragging: boolean;
   boardId: string;
 }
 
-const Card = styled.div<ICard>`
+const SCard = styled.div<CardProps>`
   margin-bottom: 5px;
   border-radius: 5px;
   padding: 5px 5px;
@@ -38,7 +40,7 @@ const Card = styled.div<ICard>`
   word-break: break-all;
 `;
 
-const ModBtn = styled.div`
+const ModeButton = styled.div`
   border: none;
   background-color: transparent;
   color: white;
@@ -50,7 +52,7 @@ const TxtArea = styled.span`
   margin: 0 auto;
 `;
 
-function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
+const Card = ({ toDoId, toDo, index, boardId }: DraggableCardProps) => {
   const setTodo = useSetRecoilState(toDoState);
 
   const onFixBtn = (index: number) => {
@@ -88,21 +90,21 @@ function DraggableCard({ toDoId, toDo, index, boardId }: IDraggableCardProps) {
     <div>
       <Draggable key={toDoId} draggableId={"todo-" + toDo.id} index={index}>
         {(provided, snapshot) => (
-          <Card
+          <SCard
             isDragging={snapshot.isDragging}
             boardId={boardId + ""}
             ref={provided.innerRef}
             {...provided.dragHandleProps}
             {...provided.draggableProps}
           >
-            <DelBtn index={index} toDoId={toDoId} boardId={boardId} />
-            <ModBtn onClick={() => onFixBtn(index)}>✏️</ModBtn>
+            <DeleteButton index={index} toDoId={toDoId} boardId={boardId} />
+            <ModeButton onClick={() => onFixBtn(index)}>✏️</ModeButton>
             <TxtArea>{toDo.text}</TxtArea>
-          </Card>
+          </SCard>
         )}
       </Draggable>
     </div>
   );
-}
+};
 
-export default React.memo(DraggableCard);
+export default React.memo(Card);

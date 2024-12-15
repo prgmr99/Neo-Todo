@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 import { Draggable, Droppable } from "react-beautiful-dnd";
@@ -6,7 +5,6 @@ import { useRecoilValue } from "recoil";
 import { toDoState } from "../../atoms";
 
 import Board from "../Board/Board";
-import AddBoardButton from "../AddBoardButton";
 import Title from "../Title";
 
 const SWrapper = styled.div`
@@ -28,7 +26,6 @@ const Wrapper = () => {
 
   return (
     <>
-      <AddBoardButton />
       <Title />
       <SWrapper>
         <Droppable droppableId="boards" direction="horizontal" type="BOARDS">

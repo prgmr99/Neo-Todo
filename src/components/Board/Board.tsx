@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Droppable, DraggableProvided } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
@@ -92,65 +91,13 @@ const Input = styled.input`
   }
 `;
 
-const FixBtn = styled.button`
-  float: right;
-  border: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 5px;
-  background-color: transparent;
-  cursor: pointer;
-  outline: none;
-  text-align: center;
-  font-size: 21px;
-  margin-top: 4px;
-  color: white;
-  text-shadow: 1px 1px #888888;
-  &:hover {
-    text-shadow: 3px 3px #888888;
-    font-size: 22px;
-    transition: color 0.3s ease-in-out;
-    color: #ff6b81;
-  }
-`;
-
-const DelBtn = styled.button`
-  float: right;
-  border: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 5px;
-  background-color: transparent;
-  cursor: pointer;
-  outline: none;
-  text-align: center;
-  margin-left: 5px;
-  font-size: 20px;
-  color: white;
-  text-shadow: 1px 1px #888888;
-  &:hover {
-    text-shadow: 3px 3px #888888;
-    font-size: 22px;
-    transition: color 0.3s ease-in-out;
-    color: #ff6b81;
-  }
-`;
-
 function Board({ board, parentProvided, isHovering }: IBoardProps) {
   const setTodo = useSetRecoilState(toDoState);
   const [height, setHeight] = useState(0);
   const [inputDisable, setInputDisable] = useState(false);
   const containerRef = useRef<IContainer>();
-  //const getTodos = useRecoilValue(toDoState);
   const { register, setValue, handleSubmit } = useForm<IForm>();
-  const onDelBtn = () => {
-    setTodo((prev) => {
-      const boardsCopy = [...prev];
-      const boardIndex = prev.findIndex((b) => b.id === board.id);
-      boardsCopy.splice(boardIndex, 1);
-      return boardsCopy;
-    });
-  };
+
   const onValid = ({ toDo }: IForm) => {
     const newTodo = {
       id: Date.now(),
@@ -167,31 +114,7 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
     });
     setValue("toDo", "");
   };
-  const onFixBtn = () => {
-    (async () => {
-      const { value: getName } = await Swal.fire({
-        title: "새로운 이름을 입력해주세요.",
-        text: "변경할 보드 이름",
-        input: "text",
-        inputPlaceholder: "이름을 입력해주세요.",
-      });
 
-      if (getName) {
-        Swal.fire("Saved!");
-      }
-      if (getName === "") {
-        return;
-      }
-      setTodo((prev) => {
-        const boardsCopy = [...prev];
-        const boardIndex = prev.findIndex((b) => b.id === board.id);
-        const boardCopy = { ...prev[boardIndex] };
-        boardCopy.title = getName;
-        boardsCopy.splice(boardIndex, 1, boardCopy);
-        return boardsCopy;
-      });
-    })();
-  };
   useEffect(() => {
     if (containerRef.current?.clientHeight !== undefined) {
       setHeight(containerRef.current?.clientHeight);
@@ -218,8 +141,6 @@ function Board({ board, parentProvided, isHovering }: IBoardProps) {
             {...parentProvided.dragHandleProps}
           >
             <div>
-              <DelBtn onClick={onDelBtn}>𝖷</DelBtn>
-              <FixBtn onClick={onFixBtn}>⏎</FixBtn>
               <div>
                 <Title>{board.title}</Title>
               </div>
